@@ -2,12 +2,12 @@ import os
 import pandas as pd
 
 def main():
-    existing_data_file_folder_usage = "\\\\DOTNET2019\\MoodleExports\\Master Files\\Panopto Master - Folder.csv"
-    existing_data_file_session_usage = "\\\\DOTNET2019\\MoodleExports\\Master Files\\Panopto Master - Session.csv"
-    existing_data_file_user_usage = "\\\\DOTNET2019\\MoodleExports\\Master Files\\Panopto Master - User.csv"
-    output_directory = "\\\\DOTNET2019\\MoodleExports\Panopto Report Downloads"
-    processed_files_file = "\\\\DOTNET2019\\MoodleExports\\Master Files\\processed_files.txt"
-    error_folder = "\\\\DOTNET2019\\MoodleExports\\Errors"
+    existing_data_file_folder_usage = "Panopto Master - Folder.csv"
+    existing_data_file_session_usage = "Panopto Master - Session.csv"
+    existing_data_file_user_usage = "Panopto Master - User.csv"
+    output_directory = "Panopto Report Downloads"
+    processed_files_file = "processed_files.txt"
+    error_folder = "Errors"
 
     try:
         # Read the existing data set CSV files into DataFrames
