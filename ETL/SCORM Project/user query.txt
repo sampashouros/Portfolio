@@ -1,0 +1,24 @@
+SELECT 
+    CONCAT(u.firstname, ' ', u.lastname) AS name,
+    u.email,
+    g.name AS group_name
+FROM
+    moodle.mdl_user_enrolments ue
+        LEFT JOIN
+    moodle.mdl_enrol e ON e.id = ue.enrolid
+        LEFT JOIN
+    moodle.mdl_user u ON u.id = ue.userid
+        LEFT JOIN
+    moodle.mdl_groups_members gm ON gm.userid = u.id
+        LEFT JOIN
+    moodle.mdl_groups g ON g.id = gm.groupid
+        AND g.courseid = e.courseid
+WHERE
+    u.email LIKE '%@live%'
+        AND e.courseid = 33654
+        AND ue.status = 0
+        AND (g.name LIKE '%FETTA'
+        OR g.name LIKE '%FSTHS'
+        OR g.name LIKE '%FBL'
+        OR g.name LIKE '%NON-AC%')
+GROUP BY u.email

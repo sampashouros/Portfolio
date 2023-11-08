@@ -1,0 +1,83 @@
+SELECT 
+    u.email,
+    CASE
+        WHEN SUM(
+            CASE
+                WHEN s.id IN (536, 481, 407) AND sst.value LIKE '%passed%' THEN 1
+                ELSE 0
+            END
+        ) > 0 THEN 'Completed'
+        ELSE 'Attempted'
+    END AS 'Bystander Intervention',
+    
+    CASE
+        WHEN SUM(
+            CASE
+                WHEN s.id IN (480, 406) AND sst.value LIKE '%passed%' THEN 1
+                ELSE 0
+            END
+        ) > 0 THEN 'Completed'
+        ELSE 'Attempted'
+    END AS 'Student Induction',
+    
+    MAX(
+        CASE
+            WHEN qg.quiz = 5953 AND qg.grade BETWEEN 0 AND 7.9 THEN 'Fail'
+            WHEN qg.quiz = 5953 AND qg.grade > 7.9 THEN 'Pass'
+            ELSE 'Not attempted'
+        END
+    ) AS 'Introduction',
+    
+    MAX(
+        CASE
+            WHEN qg.quiz = 5954 AND qg.grade BETWEEN 0 AND 7.9 THEN 'Fail'
+            WHEN qg.quiz = 5954 AND qg.grade > 7.9 THEN 'Pass'
+            ELSE 'Not attempted'
+        END
+    ) AS 'Preparation',
+    
+    MAX(
+        CASE
+            WHEN qg.quiz = 5955 AND qg.grade BETWEEN 0 AND 7.9 THEN 'Fail'
+            WHEN qg.quiz = 5955 AND qg.grade > 7.9 THEN 'Pass'
+            ELSE 'Not attempted'
+        END
+    ) AS 'In Practice',
+    
+    MAX(
+        CASE
+            WHEN qg.quiz = 5956 AND qg.grade BETWEEN 0 AND 7.9 THEN 'Fail'
+            WHEN qg.quiz = 5956 AND qg.grade > 7.9 THEN 'Pass'
+            ELSE 'Not attempted'
+        END
+    ) AS 'Confidence',
+    
+    MAX(
+        CASE
+            WHEN qg.quiz = 5957 AND qg.grade BETWEEN 0 AND 7.9 THEN 'Fail'
+            WHEN qg.quiz = 5957 AND qg.grade > 7.9 THEN 'Pass'
+            ELSE 'Not attempted'
+        END
+    ) AS 'Advanced Practice',
+    
+    CASE
+        WHEN SUM(
+            CASE
+                WHEN s.id IN (477) AND sst.value LIKE '%passed%' THEN 1
+                ELSE 0
+            END
+        ) > 0 THEN 'Completed'
+        ELSE 'Attempted'
+    END AS 'Information security with GDPR training'
+FROM
+    moodle.mdl_user u
+LEFT JOIN
+    moodle.mdl_scorm_scoes_track AS sst ON sst.userid = u.id
+LEFT JOIN
+    moodle.mdl_scorm s ON s.id = sst.scormid
+LEFT JOIN
+    moodle.mdl_quiz_grades qg ON qg.userid = u.id
+WHERE
+    s.course = 33654
+    AND u.email LIKE '%@live%'
+GROUP BY u.email;
