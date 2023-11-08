@@ -7,7 +7,7 @@ auth = mysql.connector.connect(user='sam.pashouros',
                                host='smuc-reporting.bloom.ulcc.ac.uk',
                                database='moodle')
 
-# Function to execute the query and return the DataFrame
+# Function to execute the query and return the DF
 def execute_query_and_get_dataframe(query):
     cursor = auth.cursor()
     cursor.execute(query)
@@ -18,7 +18,7 @@ def execute_query_and_get_dataframe(query):
 
 # Execute the first query
 # This query gets all the students from the Student Training Module
-file = open("\\\\DOTNET2019\\MoodleExports\\Scripts\\Queries\\user query.txt")
+file = open("user query.txt")
 query=file.read()
 df1=execute_query_and_get_dataframe(query)
 file.close()
@@ -29,17 +29,15 @@ file = open("\\\\DOTNET2019\\MoodleExports\\Scripts\\Queries\\activitiy query.tx
 query=file.read()
 df2=execute_query_and_get_dataframe(query)
 file.close()
-
-# Close the connection
 auth.close()
 
-# Merge df1 and df2 on the "email" column with a left inner join
+# Merge data from queries
 df3 = pd.merge(df1, df2, on="email", how="left")
  
-# Transformations
+# Transformations - fill any missing data (missing data means student hasn't attempted)
 df3.fillna("Not attempted", inplace=True)
 df3['group_name'] = df3['group_name'].replace('Not attempted', 'No group')
 
-# Adds data to file on DOTNET2019
-file_path = '\\\\DOTNET2019\\MoodleExports\\SCORM Data\\User Scorm Data.csv'
+# Adds data to file
+file_path = 'User Scorm Data.csv'
 df3.to_csv(file_path, index=False)
