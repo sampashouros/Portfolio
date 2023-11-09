@@ -3,7 +3,7 @@ import pandas as pd
 
 # Create connection to MySQL server
 auth = mysql.connector.connect(user='sam.pashouros',
-                               password='aQuie8tai6ep3cui$&',
+                               password='',
                                host='smuc-reporting.bloom.ulcc.ac.uk',
                                database='moodle')
 
